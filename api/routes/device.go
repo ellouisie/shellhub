@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -95,6 +96,7 @@ func DeleteDevice2(c apicontext.Context) error {
 	if v := c.Tenant(); v != nil {
 		tenant = v.ID
 	}
+	fmt.Println("estou no delete2")
 
 	if err := svc.DeleteDevice(c.Ctx(), models.UID(c.Param("uid")), tenant); err != nil {
 		if err == deviceadm.ErrUnauthorized {

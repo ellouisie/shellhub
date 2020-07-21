@@ -61,6 +61,7 @@ func (d *dockerUpdater) ApplyUpdate(v *semver.Version) error {
 }
 
 func (d *dockerUpdater) CompleteUpdate() error {
+
 	container, err := d.currentContainer()
 	if err != nil {
 		return err
@@ -85,6 +86,30 @@ func (d *dockerUpdater) CompleteUpdate() error {
 	}
 
 	return nil
+}
+
+func (d *dockerUpdater) CompleteStopAgent() error {
+	container, err := d.currentContainer()
+	if err != nil {
+		fmt.Println("erro no container")
+		return err
+	}
+
+	parent, err := d.parentContainer()
+	if err != nil {
+		fmt.Println("erro no parent")
+		return err
+	}
+	fmt.Printf("%+v\n", container)
+	fmt.Printf("%+v\n", parent)
+
+	if err := d.stopContainer(container); err != nil {
+		return err
+	}
+
+	os.Exit(0)
+	return nil
+
 }
 
 func (d *dockerUpdater) getContainer(id string) (*dockerContainer, error) {
