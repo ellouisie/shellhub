@@ -175,7 +175,14 @@ export default {
   },
 
   async created() {
-    await this.$store.dispatch('stats/get');
+    this.$store.dispatch('stats/get')
+      .then(() => {
+        console.log('COMPONENT THEN');
+      })
+      .catch(() => {
+        console.log('COMPONENT CATCH');
+      });
+
     this.hasDevicesRegistered = this.initialState();
     if (localStorage.getItem('onceWelcome') === null) {
       localStorage.setItem('onceWelcome', true);

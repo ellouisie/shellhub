@@ -19,9 +19,19 @@ export default {
   },
 
   actions: {
-    get: async (context) => {
-      const res = await getStats();
-      context.commit('setStats', res.data);
+    get({
+      commit,
+    }) {
+      return getStats()
+        .then((response) => {
+          console.log('MODEL THEN');
+          commit('setStats', response.data);
+          return Promise.resolve();
+        })
+        .catch(() => {
+          console.log('MODEL CATCH');
+          return Promise.reject();
+        });
     },
   },
 };
